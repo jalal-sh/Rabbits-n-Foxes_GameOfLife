@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GameOfLife
 {
-    public class Rabbit
+    class AnimalGeneration
     {
-        /// <summary>
-        /// Age of The Rabbit (Represented as Days)
-        /// </summary>
         public int Age { get; private set; }
+        public int SinceLastMultiplication { get; private set; }
+        public static int MultiplicationInterval { get; private set; }
+             
     }
 }
