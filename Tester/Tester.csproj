@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rabbits%27n%27Foxes_GameOfLife\Rabbits%27n%27Foxes_GameOfLife.csproj">
+    <ProjectReference Include="..\Rabbits%27n%27Foxes_GameOfLife\GameOfLife.csproj">
       <Project>{93bba3bf-a77a-4a17-872a-5df726a8bef5}</Project>
-      <Name>Rabbits%27n%27Foxes_GameOfLife</Name>
+      <Name>GameOfLife</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

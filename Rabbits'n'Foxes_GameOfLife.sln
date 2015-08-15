@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rabbits'n'Foxes_GameOfLife", "Rabbits'n'Foxes_GameOfLife\Rabbits'n'Foxes_GameOfLife.csproj", "{93BBA3BF-A77A-4A17-872A-5DF726A8BEF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameOfLife", "Rabbits'n'Foxes_GameOfLife\GameOfLife.csproj", "{93BBA3BF-A77A-4A17-872A-5DF726A8BEF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19560CEF-C3B4-4B7F-A872-68E80977556C}"
 	ProjectSection(SolutionItems) = preProject
