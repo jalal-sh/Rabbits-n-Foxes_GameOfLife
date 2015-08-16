@@ -6,25 +6,55 @@ using System.Threading.Tasks;
 
 namespace GameOfLife
 {
-    public class Distribution<TKey,TValue> where TKey : IComparable
+    /// <summary>
+    /// Distribution Table Class
+    /// </summary>
+    /// <typeparam name="TKey"> Type of Keys of the Table</typeparam>
+    /// <typeparam name="TValue">Type of Values of the Table</typeparam>
+    public class Distribution<TKey, TValue> where TKey : IComparable
     {
-
-    }
-    public class Distribution<TKey1, TKey2, TValue> where TKey1 : IComparable where TKey2 : IComparable
-    {
-        private List<TKey2> horizentalKeys;
-        Distribution<TKey1, TValue> vals;
-        public Distribution<TKey2,TValue> this[TKey2 k]
+        private List<TKey> keys;
+        private List<TValue> values;
+        public TValue this[TKey k]
         {
             get
             {
-
+                int i = keys.BinarySearch(k);
+                if (i < 0)
+                    i = ~i;
+                if (i == keys.Count)
+                    i--;
+                return values[i];
             }
             set
             {
-
+                int i = keys.BinarySearch(k);
+                if (i < 0)
+                {
+                    i = ~i;
+                    keys.Insert(i, k);
+                }
+                values.Insert(i, value);
             }
         }
+        public Distribution()
+        {
+            keys = new List<TKey>();
+            values = new List<TValue>();
+        }
 
+    }
+    /// <summary>
+    /// Two Dimensional Distribution
+    /// </summary>
+    /// <typeparam name="TKey1"> Type of horizental Keys of the Table</typeparam>
+    /// <typeparam name="TKey2"> Type of vertical Keys of the Table</typeparam>
+    /// <typeparam name="TValue"> Type of Values represented by the Table</typeparam>
+    public class Distribution<TKey1, TKey2, TValue> : Distribution<TKey1, Distribution<TKey2, TValue>> where TKey1 : IComparable where TKey2 : IComparable
+    {
+        public Distribution() : base()
+        {
+
+        }
     }
 }

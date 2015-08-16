@@ -10,14 +10,16 @@ namespace Tester
     {
 
         [TestMethod]
-        public void TestMethod1()
+        public void DistibutionTest()
         {
-            List<Tuple<int, float>> list = new List<Tuple<int, float>>();
-            list.Add(Tuple.Create(1, 1.1f));
-            List<int> vals = new List<int>();
-            vals.Add(7);
-            Distibution<Tuple<int, float>, int> dist = new Distibution<Tuple<int, float>, int>(list,vals);
-            AreEqual(dist[Tuple.Create(1, 1.1f)], 7);
+            Distribution<float, int> one_dim = new Distribution<float, int>();
+            Distribution<int, float, int> tow_Dim = new Distribution<int, float, int>();
+            Random r = new Random();
+            one_dim[1f] = 4;
+            tow_Dim[1] = new Distribution<float, int>();
+            tow_Dim[1][2f] = 3;
+            AreEqual(one_dim[0f], 4);
+            AreEqual(tow_Dim[1][1f], 3);
         }
 
     }

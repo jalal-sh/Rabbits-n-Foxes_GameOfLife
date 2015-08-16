@@ -6,20 +6,24 @@ using System.Threading.Tasks;
 
 namespace GameOfLife
 {
-    public class Rabbit
+    public class Rabbit : Animal
     {
-        /// <summary>
-        /// Age of The Rabbit (Represented as Days)
-        /// </summary>
-        public int Age { get; private set; }
         /// <summary>
         /// Time (in Days) between each 2 Multiplication Seasons
         /// </summary>
         public static int MultiplicationInterval { get; set; }
         /// <summary>
-        /// Expected Age of Rabbits
+        /// Expected Age of Rabbits based on Vegetation Level
         /// </summary>
-        public static int MedianAge { get; set; }
-        
+        public static Distribution<float, int> MedianAge { get; private set; }
+        /// <summary>
+        /// The number of Rabbits born per couple based on vegetation level
+        /// And the Number of rabbits in the current context
+        /// </summary>
+        public static Distribution<int, float, int> BirthRate { get; private set; }
+        public Rabbit():base()
+        {
+
+        }
     }
 }
