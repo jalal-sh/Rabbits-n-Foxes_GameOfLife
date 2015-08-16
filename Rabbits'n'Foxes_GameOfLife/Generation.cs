@@ -8,7 +8,7 @@ namespace GameOfLife
 {
     public class Generation<T> where T :Animal, new()
     {
-        public int Age => Animals[0].Age;
+        public Nullable<int> Age => Animals?[0]?.Age;
         public List<T> Animals { get; set; }
         public Generation(int num)
         {
