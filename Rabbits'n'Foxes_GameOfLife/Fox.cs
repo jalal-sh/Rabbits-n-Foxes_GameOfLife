@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameOfLife
 {
-    public class Fox:Animal
+    public class Fox : Animal
     {
         /// <summary>
         /// Time (in Days) between each 2 Multiplication Seasons
@@ -34,12 +34,54 @@ namespace GameOfLife
         /// </summary>
         public static int MaxFoodProp { get; private set; }
         /// <summary>
-        /// Number of Rabbits of which The Fox can't eat anymore 
+        /// Number of Rabbits of which The Fox can't eat anymore when there's enough Cover
         /// </summary>
         public static int MaxFoodAllowedWeekly { get; private set; }
-        public Fox():base()
+        /// <summary>
+        /// Number of Rabbits of which The Fox can't eat anymore when there's NOT enough Cover
+        /// </summary>
+        public static int MinFoodAllowedWeekly { get; private set; }
+        /// <summary>
+        /// The Food Required for a fox weekly so it does NOT become hungry
+        /// </summary>
+        public static int RequiredWeekly { get; private set; }
+        /// <summary>
+        /// if Hungery the Fox would be more vulneraible to Death
+        /// </summary>
+        public bool Hungry => RequiredWeekly > EatenThisWeek;
+        /// <summary>
+        /// The Probabilty of Death by Hunger
+        /// </summary>
+        public static float HungerDeathPropabilty { get; private set; }
+        /// <summary>
+        /// Number of Rabbits The Fox have Eaten each day in the Past Week
+        /// </summary>
+        public int[] EatenEachDay { get; set; }
+        /// <summary>
+        /// Sum of all the Rabbits that the fox have eaten the past week
+        /// </summary>
+        public int EatenThisWeek { get; private set; }
+        /// <summary>
+        /// Simulates the satisfaction by eating <paramref name="num"/> Rabbits at the <paramref name="Day"/>
+        /// </summary>
+        /// <param name="num">number of rabbits to eat</param>
+        /// <param name="Day">date on which the rabbits are being eaten</param>
+        public void Eat(int num, int Day)
+        {
+            int x = EatenEachDay[Day % 7];
+            EatenEachDay[Day % 7] = num;
+            EatenThisWeek += num - x;
+        }
+        /// <summary>
+        /// Initialize the Static Members in the Class Fox
+        /// </summary>
+        public static void init()
         {
 
+        }
+        public Fox() : base()
+        {
+            EatenEachDay = new int[7];
         }
 
     }
