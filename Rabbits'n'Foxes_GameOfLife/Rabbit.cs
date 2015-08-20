@@ -21,9 +21,28 @@ namespace GameOfLife
         /// And the Number of rabbits in the current context
         /// </summary>
         public static Distribution<int, float, int> BirthRate { get; private set; }
-        public Rabbit():base()
+        /// <summary>
+        /// Ratio of Rabbits that travel to neighbouring Cells
+        /// </summary>
+        public static float RateOfTravel { get; private set; }
+        public Rabbit() : base()
         {
 
+        }
+        /// <summary>
+        /// Initialize The Static Members in Class Rabbits
+        /// </summary>
+        /// <param name="MultiInterval">Time (in Days) between each 2 Multiplication Seasons</param>
+        /// <param name="Median">Expected Age of Rabbits based on Vegetation Level</param>
+        /// <param name="BRate">The number of Rabbits born per couple based on vegetation level
+        /// <param name="trRate"> Ratio Of Rabbits which travel to neighbouring Cells</param>
+        /// And the Number of rabbits in the current context</param>
+        public void init(int MultiInterval, Distribution<float, int> Median, Distribution<int, float, int> BRate, float trRate)
+        {
+            MultiplicationInterval = MultiInterval;
+            MedianAge = Median;
+            BirthRate = BRate;
+            RateOfTravel = trRate;
         }
     }
 }

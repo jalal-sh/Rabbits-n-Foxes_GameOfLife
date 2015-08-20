@@ -15,6 +15,7 @@ namespace GameOfLife
     {
         private List<TKey> keys;
         private List<TValue> values;
+
         public TValue this[TKey k]
         {
             get
@@ -28,13 +29,17 @@ namespace GameOfLife
             }
             set
             {
+                /// Return the Place in Which the key k exists or the binary complement of the Location it's supposed to be
                 int i = keys.BinarySearch(k);
                 if (i < 0)
                 {
                     i = ~i;
                     keys.Insert(i, k);
+
+                    values.Insert(i, value);
                 }
-                values.Insert(i, value);
+                else
+                    values[i] = value;
             }
         }
         public Distribution()

@@ -45,6 +45,7 @@
     <Compile Include="Distibution.cs" />
     <Compile Include="Fox.cs" />
     <Compile Include="Generation.cs" />
+    <Compile Include="Grid.cs" />
     <Compile Include="Rabbit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

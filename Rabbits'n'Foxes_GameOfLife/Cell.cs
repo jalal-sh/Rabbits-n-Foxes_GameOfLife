@@ -10,13 +10,9 @@ namespace GameOfLife
     public class Cell
     {
         /// <summary>
-        /// The X,Y Coordinates of the Cell in the Grid
-        /// </summary>
-        public Tuple<int, int> Coordinates { get; set; }
-        /// <summary>
         /// Generations Of rabbits that exist in the cell
         /// </summary>
-        private List<Generation<Rabbit>> Rabbits { get; set; }
+        public List<Generation<Rabbit>> Rabbits { get; set; }
         /// <summary>
         /// Number of Rabbits in the Cell
         /// </summary>
@@ -24,7 +20,7 @@ namespace GameOfLife
         /// <summary>
         /// Generations of Foxes that exist in the cell
         /// </summary>
-        private List<Generation<Fox>> Foxes { get; set; }
+        public List<Generation<Fox>> Foxes { get; set; }
         /// <summary>
         /// Number of Foxes in the Cell
         /// </summary>
@@ -36,14 +32,11 @@ namespace GameOfLife
         /// <summary>
         /// Vegetation Level in the Cell
         /// </summary>
-        public int VegetationLevel { get; private set; }
+        public float VegetationLevel { get; private set; }
         /// <summary>
         /// Date represented as the number Days since Simulation Began
         /// </summary>
         public int Date { get; private set; }
-        public delegate List<Cell> PossibleDest(Cell sender);
-        public PossibleDest PossibleRabbitsDest;
-        public PossibleDest PossibleFoxesDest;
         /// <summary>
         /// Simulates the Multiplication Activity of Rabbits
         /// </summary>
@@ -55,6 +48,7 @@ namespace GameOfLife
             int num = Rabbit.BirthRate[RabbitsCount][VegetationLevel] * (RabbitsCount / 2);
             Generation<Rabbit> newBorn = new Generation<Rabbit>(num);
             Rabbits.Add(newBorn);
+            Rabbits.Sort();
             return num;
         }
         /// <summary>
@@ -68,7 +62,44 @@ namespace GameOfLife
             int num = Fox.BirthRate[FoxesCount][RabbitsDensity] * (FoxesCount / 2);
             Generation<Fox> newBorn = new Generation<Fox>(num);
             Foxes.Add(newBorn);
+            Foxes.Sort();
             return num;
+        }
+        public void Merge(List<Generation<Fox>> o)
+        {
+            Foxes.Sort();
+            foreach (Generation<Fox> g in o)
+            {
+                int t = Foxes.BinarySearch(g);
+                if (t < 0)
+                {
+                    t = ~t;
+                    Foxes.Insert(t, g);
+                }
+                else
+                {
+                    Foxes[t].Animals.AddRange(g.Animals);
+                }
+            }
+
+        }
+        public void Merge(List<Generation<Rabbit>> o)
+        {
+            Rabbits.Sort();
+            foreach (Generation<Rabbit> g in o)
+            {
+                int t = Rabbits.BinarySearch(g);
+                if (t < 0)
+                {
+                    t = ~t;
+                    Rabbits.Insert(t, g);
+                }
+                else
+                {
+                    Rabbits[t].Animals.AddRange(g.Animals);
+                }
+            }
+
         }
         /// <summary>
         /// Simulates the Prey Activity of Foxes
@@ -84,6 +115,7 @@ namespace GameOfLife
             }
             foreach (Generation<Fox> gen in Foxes)
             {
+                int hungers = 0;
                 foreach (Fox f in gen.Animals)
                 {
                     int i = 0;
@@ -108,7 +140,68 @@ namespace GameOfLife
             }
         }
         /// <summary>
-        /// Does a One Day Simulation of the Life in Cell
+        /// Simulates The Death Event of Rabbits
+        /// </summary>
+        private void rabbitsDie()
+        {
+
+            List<Generation<Rabbit>> StillAlive = new List<Generation<Rabbit>>();
+            foreach (Generation<Rabbit> rabs in Rabbits)
+            {
+                if (rabs.Age > Rabbit.MedianAge[VegetationLevel])
+                {
+                    Random r = new Random();
+                    int numToDie = r.Next(rabs.Animals.Count);
+                    rabs.Animals.RemoveRange(r.Next(rabs.Animals.Count), numToDie);
+                    if (rabs.Animals.Count != 0)
+                        StillAlive.Add(rabs);
+                }
+            }
+            Rabbits = StillAlive;
+        }
+        /// <summary>
+        /// Simulates The Death Event of Foxes
+        /// </summary>
+        private void foxesDie()
+        {
+            List<Generation<Fox>> StillAlive = new List<Generation<Fox>>();
+            foreach (Generation<Fox> fx in Foxes)
+            {
+                Random r = new Random();
+                float deathprop = 0f;
+                if (fx.Age > Fox.MedianAge)
+                {
+                    deathprop = (float)r.NextDouble();
+                }
+                List<Fox> alliveGen = new List<Fox>();
+                for (int i = 0; i < fx.Animals.Count; i++)
+                {
+                    float t = (float)r.NextDouble();
+                    if (fx.Animals[i].Hungry)
+                        t += Fox.HungerDeathPropabilty;
+                    if (t < deathprop)
+                        alliveGen.Add(fx.Animals[i]);
+                }
+                fx.Animals = alliveGen;
+                if (fx.Animals.Count != 0)
+                    StillAlive.Add(fx);
+            }
+            Foxes = StillAlive;
+        }
+        /// <summary>
+        /// Changes The Vegetation Level based on thr Rules provided
+        /// </summary>
+        private void changeVegetationLevels()
+        {
+            float f = 1.1f * VegetationLevel - 0.001f * RabbitsCount;
+            if (f > 1.0f)
+                f = 1.0f;
+            if (f < 0.1f)
+                f = 0.1f;
+            VegetationLevel = f;
+        }
+        /// <summary>
+        /// Does a One Day Simulation of the Life in the Current Cell
         /// </summary>
         public void oneDayCourse()
         {
@@ -120,7 +213,10 @@ namespace GameOfLife
             RabbitsCount += newRabbits;
             FoxesCount += newFoxes;
             preyTheFoxes();
-            
+            rabbitsDie();
+            foxesDie();
+            changeVegetationLevels();
+
         }
     }
 }

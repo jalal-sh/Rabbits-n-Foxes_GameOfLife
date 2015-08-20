@@ -8,6 +8,7 @@ namespace GameOfLife
 {
     public class Animal
     {
+        
         /// <summary>
         /// a Unique ID for each animal so We can decide whether or not 2 animals are the same Animals
         /// </summary>
@@ -42,7 +43,7 @@ namespace GameOfLife
             }
             throw new ArgumentException("is not an Animal ", nameof(obj));
         }
-        public Animal()
+        protected Animal()
         {
             Age = 0;
             ID = IDCounter++;
