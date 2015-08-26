@@ -8,6 +8,8 @@ namespace GameOfLife
 {
     public class Fox : Animal
     {
+
+        #region Static Members
         /// <summary>
         /// Time (in Days) between each 2 Multiplication Seasons
         /// </summary>
@@ -57,6 +59,7 @@ namespace GameOfLife
         /// The Probabilty of Death by Hunger
         /// </summary>
         public static float HungerDeathPropabilty { get; private set; }
+        #endregion
         /// <summary>
         /// Number of Rabbits The Fox have Eaten each day in the Past Week
         /// </summary>
@@ -111,6 +114,16 @@ namespace GameOfLife
             EatenEachDay = new int[7];
             EatenThisWeek = 0;
         }
+        public override object Clone()
+        {
+            return new Fox(this);
+        }
 
+        public Fox(Fox c) : base(c)
+        {
+            EatenThisWeek = c.EatenThisWeek;
+            for (int i = 0; i < 7; i++)
+                EatenEachDay[i] = c.EatenEachDay[i];
+        }
     }
 }

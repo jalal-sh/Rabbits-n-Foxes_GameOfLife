@@ -8,6 +8,7 @@ namespace GameOfLife
 {
     public class Rabbit : Animal
     {
+        #region Static Members
         /// <summary>
         /// Time (in Days) between each 2 Multiplication Seasons
         /// </summary>
@@ -25,10 +26,8 @@ namespace GameOfLife
         /// Ratio of Rabbits that travel to neighbouring Cells
         /// </summary>
         public static float RateOfTravel { get; private set; }
-        public Rabbit() : base()
-        {
-
-        }
+        #endregion
+        
         /// <summary>
         /// Initialize The Static Members in Class Rabbits
         /// </summary>
@@ -43,6 +42,18 @@ namespace GameOfLife
             MedianAge = Median;
             BirthRate = BRate;
             RateOfTravel = trRate;
+        }
+        public override object Clone()
+        {
+            return new Rabbit(this);
+        }
+        public Rabbit() : base()
+        {
+
+        }
+        public Rabbit(Rabbit r):base(r)
+        {
+
         }
     }
 }

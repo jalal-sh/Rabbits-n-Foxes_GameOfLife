@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameOfLife
 {
-    public class Animal
+    public class Animal:ICloneable
     {
         
         /// <summary>
@@ -43,11 +43,21 @@ namespace GameOfLife
             }
             throw new ArgumentException("is not an Animal ", nameof(obj));
         }
+
+        public virtual object Clone()
+        {
+            return new Animal(this);
+        }
+
         protected Animal()
         {
             Age = 0;
             ID = IDCounter++;
         }
-
+        public Animal(Animal cpy)
+        {
+            ID = cpy.ID;
+            Age = cpy.Age;
+        }
     }
 }

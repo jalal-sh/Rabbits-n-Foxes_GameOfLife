@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace GameOfLife
 {
     public class Grid
+
     {
         /// <summary>
         /// Size of the Grid
@@ -68,9 +69,65 @@ namespace GameOfLife
             }
             return result.Distinct().ToList();
         }
+        List<float> getProbabilties(List<Tuple<int, int>> possibleDests)
+        {
+            List<float> probabs = new List<float>();
+            List<int> rands = new List<int>();
+            int sum = 0;
+            Random randGen = new Random();
+            for (int k = 0; k < possibleDests.Count; k++)
+            {
+                int curRand = randGen.Next();
+                sum += curRand;
+                rands.Add(curRand);
+            }
+            foreach (int k in rands)
+                probabs.Add((float)k / sum);
+            return probabs;
+        }
+        /// <summary>
+        /// Number Of Days since The Simulation Begun
+        /// </summary>
+        public int Date { get; private set; }
+        /// <summary>
+        /// Performs a one Day simulation of the Overall Grid
+        /// </summary>
         public void GridOneDaySim()
         {
             
+            for (int i = 0; i < Cells.Count; i++)
+            {
+                for (int j = 0; j < Cells[i].Count; j++)
+                {
+                    Cell resultCell = new Cell(Cells[i][j]);
+                    resultCell.oneDayCourse(Date);
+                    Cells[i][j].Merge(resultCell);
+                }
+            }
+            List<List<Cell>> result = new List<List<Cell>>();
+            for (int i = 0; i < Cells.Count; i++)
+            {
+                result.Add(new List<Cell>());
+                for (int j = 0; j < Cells[i].Count; j++)
+                    result[i].Add(new Cell());
+            }
+            for (int i = 0; i < Cells.Count; i++)
+            {
+                for (int j = 0; j < Cells[i].Count; j++)
+                {
+                    int numToTravel =(int) (Cells[i][j].RabbitsCount*Rabbit.RateOfTravel);
+                   // List<Tupe>
+                    for (int gen=0;gen<Cells[i][j].Rabbits.Count;gen++)
+                    {
+                        
+                    }
+                }
+            }
+
+        }
+        public Grid(Tuple<int, int> size)//////// UNIMPLEMENTED
+        {
+
         }
     }
 }

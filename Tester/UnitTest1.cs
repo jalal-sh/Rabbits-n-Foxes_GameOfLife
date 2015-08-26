@@ -3,7 +3,7 @@ using GameOfLife;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-namespace Tester
+namespace GameOfLife.Tests
 {
     [TestClass]
     public class UnitTest1
@@ -21,10 +21,5 @@ namespace Tester
             AreEqual(one_dim[0f], 4);
             AreEqual(tow_Dim[1][1f], 3);
         }
-
-
-
-
-
     }
 }
