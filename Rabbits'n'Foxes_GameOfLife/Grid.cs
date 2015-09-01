@@ -28,21 +28,21 @@ namespace GameOfLife
         {
             List<Tuple<int, int>> result = new List<Tuple<int, int>>();
             result.Add(Tuple.Create(c.Item1, c.Item2));
-            if (c.Item1 != Size.Item1)
+            if (c.Item1 + 1 != Size.Item1)
             {
                 result.Add(Tuple.Create(c.Item1 + 1, c.Item2));
-                if (c.Item2 != Size.Item2)
+                if (c.Item2 + 1 != Size.Item2)
                     result.Add(Tuple.Create(c.Item1 + 1, c.Item2 + 1));
                 if (c.Item2 != 0)
                     result.Add(Tuple.Create(c.Item1 + 1, c.Item2 - 1));
 
             }
-            if (c.Item2 != Size.Item2)
+            if (c.Item2 + 1 != Size.Item2)
                 result.Add(Tuple.Create(c.Item1, c.Item2 + 1));
             if (c.Item1 != 0)
             {
                 result.Add(Tuple.Create(c.Item1 - 1, c.Item2));
-                if (c.Item2 != Size.Item2)
+                if (c.Item2 + 1 != Size.Item2)
                     result.Add(Tuple.Create(c.Item1 - 1, c.Item2 + 1));
                 if (c.Item2 != 0)
                     result.Add(Tuple.Create(c.Item1 - 1, c.Item2 - 1));
@@ -69,13 +69,18 @@ namespace GameOfLife
             }
             return result.Distinct().ToList();
         }
-        List<float> getProbabilties(List<Tuple<int, int>> possibleDests)
+        /// <summary>
+        /// a List of random floats that sum up to 1
+        /// </summary>
+        /// <param name="num">number of elements in the list</param>
+        /// <returns></returns>
+        List<float> getRates(int num)
         {
             List<float> probabs = new List<float>();
             List<int> rands = new List<int>();
             int sum = 0;
             Random randGen = new Random();
-            for (int k = 0; k < possibleDests.Count; k++)
+            for (int k = 0; k < num; k++)
             {
                 int curRand = randGen.Next();
                 sum += curRand;
@@ -94,14 +99,12 @@ namespace GameOfLife
         /// </summary>
         public void GridOneDaySim()
         {
-            
+
             for (int i = 0; i < Cells.Count; i++)
             {
                 for (int j = 0; j < Cells[i].Count; j++)
                 {
-                    Cell resultCell = new Cell(Cells[i][j]);
-                    resultCell.oneDayCourse(Date);
-                    Cells[i][j].Merge(resultCell);
+                    Cells[i][j].oneDayCourse(Date);
                 }
             }
             List<List<Cell>> result = new List<List<Cell>>();
@@ -111,23 +114,77 @@ namespace GameOfLife
                 for (int j = 0; j < Cells[i].Count; j++)
                     result[i].Add(new Cell());
             }
+            Random random = new Random();
             for (int i = 0; i < Cells.Count; i++)
             {
                 for (int j = 0; j < Cells[i].Count; j++)
                 {
-                    int numToTravel =(int) (Cells[i][j].RabbitsCount*Rabbit.RateOfTravel);
-                   // List<Tupe>
-                    for (int gen=0;gen<Cells[i][j].Rabbits.Count;gen++)
+                    int numToTravel = (int)(Cells[i][j].RabbitsCount * Rabbit.RateOfTravel);
+                    List<Tuple<int, int>> possibleDests = possibleRabbitDest(Tuple.Create(i, j));
+                    List<float> rates = getRates(possibleDests.Count);
+                    for (int dest = 0; dest < possibleDests.Count; dest++)
                     {
-                        
+                        int travellersTothisDest = (int)(numToTravel * rates[dest]);
+                        List<Generation<Rabbit>> destination = new List<Generation<Rabbit>>();
+                        List<float> genRates = getRates(Cells[i][j].RabbitsGenerations.Count);
+                        for (int gen = 0; gen < Cells[i][j].RabbitsGenerations.Count; gen++)
+                        {
+                            int fromThisGen = (int)(travellersTothisDest * genRates[gen]);
+                            Generation<Rabbit> resGen = new Generation<Rabbit>(0);
+                            for (int rab = 0; rab < fromThisGen; rab++)
+                            {
+                                int index = random.Next(Cells[i][j].RabbitsGenerations[rab].Count);
+                                Rabbit cur = Cells[i][j].RabbitsGenerations[gen][index];
+                                resGen.Animals.Add(cur);
+                                Cells[i][j].RabbitsGenerations[rab].Animals.RemoveAt(index);
+                            }
+                            destination.Add(resGen);
+                        }
+                        result[possibleDests[dest].Item1][possibleDests[dest].Item2].Merge(destination);
                     }
                 }
             }
-
+            for (int i = 0; i < Cells.Count; i++)
+            {
+                for (int j = 0; j < Cells[i].Count; j++)
+                {
+                    int numToTravel = (int)(Cells[i][j].FoxesCount * Fox.RateOfTravel);
+                    List<Tuple<int, int>> possibleDests = possibleFoxDest(Tuple.Create(i, j));
+                    List<float> rates = getRates(possibleDests.Count);
+                    for (int dest = 0; dest < possibleDests.Count; dest++)
+                    {
+                        int travellersTothisDest = (int)(numToTravel * rates[dest]);
+                        List<Generation<Fox>> destination = new List<Generation<Fox>>();
+                        List<float> genRates = getRates(Cells[i][j].FoxesGenerations.Count);
+                        for (int gen = 0; gen < Cells[i][j].FoxesGenerations.Count; gen++)
+                        {
+                            int fromThisGen = (int)(travellersTothisDest * genRates[gen]);
+                            Generation<Fox> resGen = new Generation<Fox>(0);
+                            for (int fox = 0; fox < fromThisGen; fox++)
+                            {
+                                int index = random.Next(Cells[i][j].FoxesGenerations[fox].Count);
+                                Fox cur = Cells[i][j].FoxesGenerations[gen][index];
+                                resGen.Animals.Add(cur);
+                                Cells[i][j].FoxesGenerations[fox].Animals.RemoveAt(index);
+                            }
+                            destination.Add(resGen);
+                        }
+                        result[possibleDests[dest].Item1][possibleDests[dest].Item2].Merge(destination);
+                    }
+                    result[i][j].CopyMerge(Cells[i][j]);
+                }
+            }
+            Date++;
         }
-        public Grid(Tuple<int, int> size)//////// UNIMPLEMENTED
+        public Grid(Tuple<int, int> size)
         {
-
+            Cells = new List<List<Cell>>();
+            Date = 0;
+            Size = size;
+            for (int i = 0; i < size.Item1; i++)
+            {
+                Cells.Add(new List<Cell>());
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace GameOfLife
                 Animals[k] = value;
             }
         }
-        public int? Age => Animals?[0]?.Age;
+        public int? Age => (Animals?.Count>0)?(Animals?[0].Age):null;
         public List<T> Animals { get; set; }
         public Generation(Generation<T> c)
         {

@@ -36,7 +36,7 @@ namespace GameOfLife
         /// <param name="BRate">The number of Rabbits born per couple based on vegetation level
         /// <param name="trRate"> Ratio Of Rabbits which travel to neighbouring Cells</param>
         /// And the Number of rabbits in the current context</param>
-        public void init(int MultiInterval, Distribution<float, int> Median, Distribution<int, float, int> BRate, float trRate)
+        public static void init(int MultiInterval, Distribution<float, int> Median, Distribution<int, float, int> BRate, float trRate)
         {
             MultiplicationInterval = MultiInterval;
             MedianAge = Median;

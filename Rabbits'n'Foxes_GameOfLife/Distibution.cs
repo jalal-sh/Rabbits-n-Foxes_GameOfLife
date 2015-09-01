@@ -47,6 +47,11 @@ namespace GameOfLife
             keys = new List<TKey>();
             values = new List<TValue>();
         }
+        public Distribution(List<TKey> keys,List<TValue> values)
+        {
+            this.keys = keys;
+            this.values = values;
+        }
 
     }
     /// <summary>
@@ -61,5 +66,6 @@ namespace GameOfLife
         {
 
         }
+        
     }
 }

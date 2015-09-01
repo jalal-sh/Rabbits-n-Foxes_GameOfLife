@@ -1,0 +1,44 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameOfLife.View"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="GameOfLife.View.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1611.276" Width="2244.533" WindowState="Maximized" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="243*"/>
+            <RowDefinition Height="73*"/>
+        </Grid.RowDefinitions>
+        <UniformGrid Margin="10,10,10,26.854" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsHidden="True">
+            <local:CellControl/>
+            <local:CellControl Margin="0,0,10,0"/>
+            <local:CellControl Margin="0,0,10,0"/>
+            <local:CellControl Margin="0,0,10,0"/>
+            <local:CellControl Margin="0,0,10,0"/>
+            <local:CellControl Margin="0,0,10,0"/>
+            <local:CellControl Margin="0,0,10,0"/>
+            <local:CellControl Margin="0,0,10,0"/>
+            <local:CellControl Margin="0,0,10,0"/>
+        </UniformGrid>
+        <Expander x:Name="expander" Header="Options" Margin="0,3.997,20,10" Grid.Row="1" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <Grid Background="#00E5E5E5" Height="110.026" Margin="10,0,8,0">
+                <Slider x:Name="StepSlider" Margin="828.729,0,10,0" VerticalAlignment="Bottom" TickPlacement="BottomRight"/>
+                <Slider x:Name="CurDateSlider" Margin="45.083,0,368.5,0" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" TickPlacement="TopLeft" Height="25.96"/>
+                <Label x:Name="Day0Label" Content="Day 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <ComboBox x:Name="DateCombo" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Margin="0,10,10,0">
+                    <TextBlock Text="Day"/>
+                    <TextBlock Text="Week"/>
+                    <TextBlock Text="Month"/>
+                    <TextBlock Text="Year"/>
+
+                </ComboBox>
+                <TextBox x:Name="textBox" HorizontalAlignment="Right" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="0,8.96,135,0"/>
+                <Label x:Name="label" Content="End of Simulation" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,255,0"/>
+                <Label x:Name="label1" Content="Step:" HorizontalAlignment="Left" Margin="787.745,74.066,0,0" VerticalAlignment="Top"/>
+            </Grid>
+        </Expander>
+    </Grid>
+</Window>
