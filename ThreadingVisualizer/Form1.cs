@@ -1,26 +1,18 @@
 ﻿using System;
-using GameOfLife;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-namespace GameOfLife.Tests
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using WindowTransformation;
+using GameOfLife;
+namespace ThreadingVisualizer
 {
-    [TestClass]
-    public class UnitTest1
+    public partial class Form1 : Form
     {
-
-        [TestMethod]
-        public void DistibutionTest()
-        {
-            Distribution<float, int> one_dim = new Distribution<float, int>();
-            Distribution<int, float, int> tow_Dim = new Distribution<int, float, int>();
-            Random r = new Random();
-            one_dim[1f] = 4;
-            tow_Dim[1] = new Distribution<float, int>();
-            tow_Dim[1][2f] = 3;
-            AreEqual(one_dim[0f], 4);
-            AreEqual(tow_Dim[1][1f], 3);
-        }
         void initAll()
         {
             Distribution<float, int> rabbitAge = new Distribution<float, int>();
@@ -58,7 +50,7 @@ namespace GameOfLife.Tests
             rabbitBirths[int.MaxValue][0.5f] = 3;
             rabbitBirths[int.MaxValue][0.8f] = 4;
             rabbitBirths[int.MaxValue][1.0f] = 5;
-            Rabbit.init(14, rabbitAge, rabbitBirths, 0.2f,1);
+            Rabbit.init(14, rabbitAge, rabbitBirths, 0.2f, 1);
 
 
             Distribution<int, float, int> foxBirths = new Distribution<int, float, int>();
@@ -92,45 +84,70 @@ namespace GameOfLife.Tests
             foxBirths[int.MaxValue][40f] = 2;
             foxBirths[int.MaxValue][float.MaxValue] = 3;
 
-            Fox.init(9 * 7, 4 * 365, foxBirths, 0.6f, ((float)2) / 7, ((float)4) / 7, 2, 4, 2, 0.1f, 1f,2);
+            Fox.init(9 * 7, 4 * 365, foxBirths, 0.6f, ((float)2) / 7, ((float)4) / 7, 2, 4, 2, 0.1f, 1f, 2);
             Cell.init(0.1f);
+
         }
-        [TestMethod]
-        public void GridTenYear()
+        public void Gridit(int threads)
         {
+            Grid g;
             initAll();
-            Grid g = new Grid(Tuple.Create(8, 8));
+            g = new Grid(Tuple.Create(8, 8));
             foreach (List<Cell> cells in g.Cells)
                 for (int i = 0; i < 8; i++)
                 {
                     cells.Add(new Cell(2, 2, 1f));
                 }
-            for (int i = 0; i < 365 * 10; i++)
-                g.GridOneDaySim();
+            g.GridSim(3 * 365, (uint)threads);
+        }
+        Gu gu;
+        public Form1()
+        {
+            gu = new Gu();
+            bg.DoWork += Bg_DoWork;
+            InitializeComponent();
+            g = panel1.CreateGraphics();
+        }
+        Graphics g;
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+        double lasty = 0;
+        int i = 0;
+        private void Shit()
+        {
+       
+            gu.GuWindowView(0, 10000, 11, 0, 0, 0, panel1.Width, panel1.Height);
+           
+                DateTime x = DateTime.Now;
+                Gridit(i);
+                double t = (DateTime.Now - x).TotalMilliseconds;
+                gu.GuText("*", i - 0.15, (int)t - 20, g);
+                gu.GuText((int)t + "ms", i, (int)t + 60 , g);
+                if (i != 1)
+                    gu.GuLine(i - 1.0, (int)lasty, i * 1f, (int)t, g);
+                lasty = t;
+            
+        }
+        BackgroundWorker bg = new BackgroundWorker();
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
         }
 
-        [TestMethod]
-        public void GridTestOneDay()
+        private void Bg_DoWork(object sender, DoWorkEventArgs e)
         {
-            initAll();
-            Grid g = new Grid(Tuple.Create(8, 8));
-            foreach (List<Cell> cells in g.Cells)
-            {
-                for (int i = 0; i < 8; i++)
-                {
-                    cells.Add(new Cell(0, 0, 1f));
-                }
-            }
-           // g.Cells[0][0] = new Cell(2, 2, 1f);
-            g.GridOneDaySim();
+            Shit();
         }
-        [TestMethod]
-        public void OneCell()
+
+        private void button1_Click(object sender, EventArgs e)
         {
-            initAll();
-            Cell c = new Cell(20, 100, 1f);
-            c.oneDayCourse(365 * 5);
-            //Assert.Inconclusive(c.RabbitsCount + " " + c.FoxesCount);
+            i++;
+            while(bg.IsBusy)
+            {
+
+            }
+            bg.RunWorkerAsync();
         }
     }
 }

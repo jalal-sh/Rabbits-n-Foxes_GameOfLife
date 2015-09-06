@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 namespace GameOfLife
 {
 
-    public class Cell
+    public class Cell 
     {
+        #region Properties
         /// <summary>
         /// Generations Of rabbits that exist in the cell
         /// </summary>
@@ -38,6 +39,18 @@ namespace GameOfLife
         /// </summary>
         public static float VegetationGrowth { get; private set; }
         /// <summary>
+        /// Initialize the Static Variables in Cell
+        /// </summary>
+        /// <param name="VegetationGrowth">The Amount of Increase of Vegetation Per Day</param>
+        public static void init(float VegetationGrowth)
+        {
+            Cell.VegetationGrowth = VegetationGrowth;
+        }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
         /// Simulates the Multiplication Activity of Rabbits
         /// </summary>
         /// <returns>
@@ -51,6 +64,7 @@ namespace GameOfLife
             RabbitsGenerations.Sort();
             return num;
         }
+        
         /// <summary>
         /// Simulates the Multiplication Activity of Foxes
         /// </summary>
@@ -65,6 +79,7 @@ namespace GameOfLife
             FoxesGenerations.Sort();
             return num;
         }
+        
         /// <summary>
         /// Merge The Current Lis tof Foxes Generation with another One
         /// </summary>
@@ -88,6 +103,7 @@ namespace GameOfLife
             }
 
         }
+        
         /// <summary>
         /// Merge The Current Lis tof Rabbits Generation with another One
         /// </summary>
@@ -111,6 +127,7 @@ namespace GameOfLife
             }
 
         }
+        
         /// <summary>
         /// Copy a Cell but Merges the current Contents with the new Ones
         /// </summary>
@@ -123,6 +140,7 @@ namespace GameOfLife
             Merge(c.FoxesGenerations);
             Merge(c.RabbitsGenerations);
         }
+        
         /// <summary>
         /// Simulates the Prey Activity of Foxes
         /// </summary>
@@ -160,6 +178,7 @@ namespace GameOfLife
                 }
             }
         }
+        
         /// <summary>
         /// Simulates The Death Event of Rabbits
         /// </summary>
@@ -195,6 +214,7 @@ namespace GameOfLife
             }
             RabbitsGenerations = StillAlive;
         }
+        
         /// <summary>
         /// Simulates The Death Event of Foxes
         /// </summary>
@@ -230,6 +250,7 @@ namespace GameOfLife
             }
             FoxesGenerations = StillAlive;
         }
+        
         /// <summary>
         /// Changes The Vegetation Level based on thr Rules provided
         /// </summary>
@@ -242,6 +263,7 @@ namespace GameOfLife
                 f = 0.1f;
             VegetationLevel = f;
         }
+        
         /// <summary>
         /// Does a One Day Simulation of the Life in the Current Cell
         /// </summary>
@@ -262,14 +284,7 @@ namespace GameOfLife
             foxesDie(Date);
             changeVegetationLevels();
         }
-        /// <summary>
-        /// Initialize the Static Variables in Cell
-        /// </summary>
-        /// <param name="VegetationGrowth">The Amount of Increase of Vegetation Per Day</param>
-        public static void init(float VegetationGrowth)
-        {
-            Cell.VegetationGrowth = VegetationGrowth;
-        }
+        #endregion
         public Cell()
         {
             FoxesGenerations = new List<Generation<Fox>>();

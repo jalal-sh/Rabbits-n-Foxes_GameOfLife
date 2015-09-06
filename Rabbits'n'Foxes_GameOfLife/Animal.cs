@@ -18,7 +18,8 @@ namespace GameOfLife
         /// Age of The Rabbit (Represented as Days)
         /// </summary>
         public int Age { get; protected set; }
-        /// /// <summary>
+        
+        /// <summary>
         /// On the End of Day Rabbits Ages One More Day
         /// </summary>
         public void AgeOneDay()
