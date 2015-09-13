@@ -58,7 +58,7 @@ namespace GameOfLife.Tests
             rabbitBirths[int.MaxValue][0.5f] = 3;
             rabbitBirths[int.MaxValue][0.8f] = 4;
             rabbitBirths[int.MaxValue][1.0f] = 5;
-            Rabbit.init(14, rabbitAge, rabbitBirths, 0.2f,1);
+            Rabbit.init(14, rabbitAge, rabbitBirths, 0.2f, 1);
 
 
             Distribution<int, float, int> foxBirths = new Distribution<int, float, int>();
@@ -92,45 +92,44 @@ namespace GameOfLife.Tests
             foxBirths[int.MaxValue][40f] = 2;
             foxBirths[int.MaxValue][float.MaxValue] = 3;
 
-            Fox.init(9 * 7, 4 * 365, foxBirths, 0.6f, ((float)2) / 7, ((float)4) / 7, 2, 4, 2, 0.1f, 1f,2);
-            Cell.init(0.1f);
-        }
-        [TestMethod]
-        public void GridTenYear()
-        {
-            initAll();
-            Grid g = new Grid(Tuple.Create(8, 8));
-            foreach (List<Cell> cells in g.Cells)
-                for (int i = 0; i < 8; i++)
-                {
-                    cells.Add(new Cell(2, 2, 1f));
-                }
-            for (int i = 0; i < 365 * 10; i++)
-                g.GridOneDaySim();
+            Fox.init(9 * 7, 4 * 365, foxBirths, 0.6f, ((float)2) / 7, ((float)4) / 7, 2, 4, 2, 0.1f, 1f, 2);
+            GameCell.init(0.1f);
         }
 
         [TestMethod]
         public void GridTestOneDay()
         {
             initAll();
-            Grid g = new Grid(Tuple.Create(8, 8));
-            foreach (List<Cell> cells in g.Cells)
+            GameGrid g = new GameGrid(Tuple.Create(8, 8));
+            foreach (List<GameCell> cells in g.Cells)
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    cells.Add(new Cell(0, 0, 1f));
+                    cells.Add(new GameCell(0, 0, 1f));
                 }
             }
-           // g.Cells[0][0] = new Cell(2, 2, 1f);
+            // g.Cells[0][0] = new Cell(2, 2, 1f);
             g.GridOneDaySim();
         }
         [TestMethod]
         public void OneCell()
         {
             initAll();
-            Cell c = new Cell(20, 100, 1f);
+            GameCell c = new GameCell(20, 100, 1f);
             c.oneDayCourse(365 * 5);
             //Assert.Inconclusive(c.RabbitsCount + " " + c.FoxesCount);
+        }
+        [TestMethod]
+        public void GridTenYear()
+        {
+            initAll();
+            GameGrid g = new GameGrid(Tuple.Create(8, 8));
+            foreach (List<GameCell> cells in g.Cells)
+                for (int i = 0; i < 8; i++)
+                {
+                    cells.Add(new GameCell(100, 20, 1f));
+                }
+            g.GridSim(10 * 365, 1);
         }
     }
 }

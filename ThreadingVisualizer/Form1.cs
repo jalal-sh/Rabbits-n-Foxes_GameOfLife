@@ -85,20 +85,21 @@ namespace ThreadingVisualizer
             foxBirths[int.MaxValue][float.MaxValue] = 3;
 
             Fox.init(9 * 7, 4 * 365, foxBirths, 0.6f, ((float)2) / 7, ((float)4) / 7, 2, 4, 2, 0.1f, 1f, 2);
-            Cell.init(0.1f);
+            GameCell.init(0.1f);
 
         }
         public void Gridit(int threads)
         {
-            Grid g;
+            GameGrid g;
             initAll();
-            g = new Grid(Tuple.Create(8, 8));
-            foreach (List<Cell> cells in g.Cells)
+            g = new GameGrid(Tuple.Create(8, 8));
+            foreach (List<GameCell> cells in g.Cells)
                 for (int i = 0; i < 8; i++)
                 {
-                    cells.Add(new Cell(2, 2, 1f));
+                    cells.Add(new GameCell(2, 100, 1f));
                 }
-            g.GridSim(3 * 365, (uint)threads);
+            g.GridSim(10 * 365, (uint)threads);
+            gu.GuWindowView(0, 10000, 11, 0, 0, 0, panel1.Width, panel1.Height);
         }
         Gu gu;
         public Form1()
@@ -115,20 +116,17 @@ namespace ThreadingVisualizer
         }
         double lasty = 0;
         int i = 0;
-        private void Shit()
+        private void DrawThreadPerformance()
         {
-       
-            gu.GuWindowView(0, 10000, 11, 0, 0, 0, panel1.Width, panel1.Height);
-           
-                DateTime x = DateTime.Now;
-                Gridit(i);
-                double t = (DateTime.Now - x).TotalMilliseconds;
-                gu.GuText("*", i - 0.15, (int)t - 20, g);
-                gu.GuText((int)t + "ms", i, (int)t + 60 , g);
-                if (i != 1)
-                    gu.GuLine(i - 1.0, (int)lasty, i * 1f, (int)t, g);
-                lasty = t;
-            
+          DateTime x = DateTime.Now;
+            Gridit(i);
+            double t = (DateTime.Now - x).TotalMilliseconds;
+            gu.GuText("*", i - 0.15, (int)t - 20, g);
+            gu.GuText((int)t + "ms", i, (int)t + 60, g);
+            if (i != 1)
+                gu.GuLine(i - 1.0, (int)lasty, i * 1f, (int)t, g);
+            lasty = t;
+
         }
         BackgroundWorker bg = new BackgroundWorker();
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -137,13 +135,13 @@ namespace ThreadingVisualizer
 
         private void Bg_DoWork(object sender, DoWorkEventArgs e)
         {
-            Shit();
+            DrawThreadPerformance();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             i++;
-            while(bg.IsBusy)
+            while (bg.IsBusy)
             {
 
             }

@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace GameOfLife
 {
-    public class Grid
+    public class GameGrid
 
     {
         #region Properties
@@ -37,7 +37,7 @@ namespace GameOfLife
         /// <summary>
         /// The Cells in The Grid
         /// </summary>
-        public List<List<Cell>> Cells { get; private set; }
+        public List<List<GameCell>> Cells { get; private set; }
         #endregion      
 
         #region Methods
@@ -121,20 +121,16 @@ namespace GameOfLife
         {
             if (threads == 0)
                 throw new ArgumentOutOfRangeException(nameof(threads), 0, "Number of threads Can't be Zero");
-            if (threads == 1)
-                for (int i = 0; i < time; i++)
-                {
-                    GridOneDaySim();
-                }
-            else
+
+            Barrier barrier = new Barrier((int)threads);
+            ThreadPool.SetMaxThreads((int)threads, 100);
+            ThreadParam.bar = barrier;
+
+            for (int i = 0; i < time; i++)
             {
-                Barrier barrier = new Barrier((int)threads);
-                ThreadPool.SetMaxThreads((int)threads, 100);
-                for (int i = 0; i < time; i++)
-                {
-                    GridOneDaySim_Parallel(threads, barrier);
-                }
+                GridOneDaySim_Parallel(threads);
             }
+
         }
 
         /// <summary>
@@ -184,9 +180,8 @@ namespace GameOfLife
         /// Perform a parallel one day sim of the Grid using <paramref name="threadCount"/> Threads
         /// </summary>
         /// <param name="threadCount">Number of threads to use in the simulation process</param>
-        private void GridOneDaySim_Parallel(uint threadCount, Barrier br)
+        private void GridOneDaySim_Parallel(uint threadCount)
         {
-            ThreadParam.bar = br;
             int si, sj;
             int perThread = (int)(Size.Item1 * Size.Item2 / threadCount);
             for (int i = 0; i < threadCount - 1; i++)
@@ -229,12 +224,12 @@ namespace GameOfLife
         /// </summary>
         private void MoveAnimals()
         {
-            List<List<Cell>> result = new List<List<Cell>>();
+            List<List<GameCell>> result = new List<List<GameCell>>();
             for (int i = 0; i < Cells.Count; i++)
             {
-                result.Add(new List<Cell>());
+                result.Add(new List<GameCell>());
                 for (int j = 0; j < Cells[i].Count; j++)
-                    result[i].Add(new Cell());
+                    result[i].Add(new GameCell());
             }
             Random random = new Random();
             for (int i = 0; i < Cells.Count; i++)
@@ -260,7 +255,7 @@ namespace GameOfLife
                             int index = random.Next(Cells[i][j].RabbitsGenerations[gen].Count - 1);
                             Rabbit cur = Cells[i][j].RabbitsGenerations[gen][index];
                             resGen.Animals.Add(cur);
-                            Cells[i][j].RabbitsGenerations[rab].Animals.RemoveAt(index);
+                            Cells[i][j].RabbitsGenerations[gen].Animals.RemoveAt(index);
                             alreadyTravelled++;
                         }
                         if (fromThisGen != 0)
@@ -292,11 +287,11 @@ namespace GameOfLife
                             int index = random.Next(Cells[i][j].FoxesGenerations[gen].Count - 1);
                             Fox cur = Cells[i][j].FoxesGenerations[gen][index];
                             resGen.Animals.Add(cur);
-                            Cells[i][j].FoxesGenerations[fox].Animals.RemoveAt(index);
+                            Cells[i][j].FoxesGenerations[gen].Animals.RemoveAt(index);
                             alreadyTravelled++;
                         }
-                        if(fromThisGen!=0)
-                        destination.Add(resGen);
+                        if (fromThisGen != 0)
+                            destination.Add(resGen);
                         result[possibleDests[dest].Item1][possibleDests[dest].Item2].Merge(destination);
                     }
                     result[i][j].CopyMerge(Cells[i][j]);
@@ -306,7 +301,7 @@ namespace GameOfLife
         }
 
         #endregion
-        public Grid(Tuple<int, int> size)
+        public GameGrid(Tuple<int, int> size)
 
         {
             object o = new object();
@@ -316,12 +311,12 @@ namespace GameOfLife
             }
 
 
-            Cells = new List<List<Cell>>();
+            Cells = new List<List<GameCell>>();
             Date = 0;
             Size = size;
             for (int i = 0; i < size.Item1; i++)
             {
-                Cells.Add(new List<Cell>());
+                Cells.Add(new List<GameCell>());
             }
         }
     }

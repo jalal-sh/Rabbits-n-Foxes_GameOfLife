@@ -7,10 +7,11 @@
     <ProjectGuid>{93BBA3BF-A77A-4A17-872A-5DF726A8BEF5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rabbits_n_Foxes_GameOfLife</RootNamespace>
-    <AssemblyName>Rabbits%27n%27Foxes_GameOfLife</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>GameOfLife</RootNamespace>
+    <AssemblyName>GameOfLife</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,13 +60,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animal.cs" />
-    <Compile Include="Cell.cs" />
+    <Compile Include="GameCell.cs" />
     <Compile Include="Distibution.cs" />
     <Compile Include="Fox.cs" />
     <Compile Include="Generation.cs" />
-    <Compile Include="Grid.cs" />
+    <Compile Include="GameGrid.cs" />
     <Compile Include="Rabbit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

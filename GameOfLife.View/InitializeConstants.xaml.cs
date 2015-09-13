@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GameOfLife.View
 {
     /// <summary>
-    /// Interaction logic for CellControl.xaml
+    /// Interaction logic for InitializeConstants.xaml
     /// </summary>
-    public partial class CellControl : UserControl
+    public partial class InitializeConstants : Window
     {
-        public CellControl()
+        public InitializeConstants()
         {
             InitializeComponent();
         }

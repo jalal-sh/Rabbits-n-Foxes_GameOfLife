@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="GameOfLife.View.GameCellControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GameOfLife.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="144.828" d:DesignWidth="141.379">
+    <UserControl.Resources>
+        <local:GameCellVM x:Key="GameCellDataSource" d:isDataSource="True"/>
+    </UserControl.Resources>
+    <Grid x:Name="GameCellLayout" DataContext="{DynamicResource GameCellDataSource}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Rectangle x:Name="GreenRect" Fill="{Binding Green}" Stroke="Black" Grid.ColumnSpan="2" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" Grid.Row="1"/>
+        <Rectangle x:Name="BlueRect" Fill="{Binding Blue}" Margin="1.724,0,0,0" Stroke="Black" Grid.Column="1" d:LayoutOverrides="HorizontalAlignment, LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+        <Rectangle x:Name="RedRect" Fill="{Binding Red}" Margin="0,0,-1.724,0" Stroke="Black" d:LayoutOverrides="HorizontalAlignment, LeftMargin, RightMargin, TopMargin, BottomMargin"/>
+
+    </Grid>
+</UserControl>

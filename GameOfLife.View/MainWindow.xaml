@@ -12,19 +12,19 @@
             <RowDefinition Height="243*"/>
             <RowDefinition Height="73*"/>
         </Grid.RowDefinitions>
-        <UniformGrid Margin="10,10,10,26.854" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" d:IsHidden="True">
-            <local:CellControl/>
-            <local:CellControl Margin="0,0,10,0"/>
-            <local:CellControl Margin="0,0,10,0"/>
-            <local:CellControl Margin="0,0,10,0"/>
-            <local:CellControl Margin="0,0,10,0"/>
-            <local:CellControl Margin="0,0,10,0"/>
-            <local:CellControl Margin="0,0,10,0"/>
-            <local:CellControl Margin="0,0,10,0"/>
-            <local:CellControl Margin="0,0,10,0"/>
+        <UniformGrid Margin="10,10,10,26.854" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <local:GameCellControl Margin="0,0,10,0"/>
+            <local:GameCellControl Margin="0,0,10,0"/>
+            <local:GameCellControl Margin="0,0,10,0"/>
+            <local:GameCellControl Margin="0,0,10,0"/>
+            <local:GameCellControl Margin="0,0,10,0"/>
+            <local:GameCellControl Margin="0,0,10,0"/>
+            <local:GameCellControl Margin="0,0,10,0"/>
+            <local:GameCellControl Margin="0,0,10,0"/>
+            <local:GameCellControl Margin="0,0,10,0"/>
         </UniformGrid>
         <Expander x:Name="expander" Header="Options" Margin="0,3.997,20,10" Grid.Row="1" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
-            <Grid Background="#00E5E5E5" Height="110.026" Margin="10,0,8,0">
+            <Grid Background="#00E5E5E5" Height="118" Margin="10,0,8,0">
                 <Slider x:Name="StepSlider" Margin="828.729,0,10,0" VerticalAlignment="Bottom" TickPlacement="BottomRight"/>
                 <Slider x:Name="CurDateSlider" Margin="45.083,0,368.5,0" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" TickPlacement="TopLeft" Height="25.96"/>
                 <Label x:Name="Day0Label" Content="Day 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>

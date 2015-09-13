@@ -7,44 +7,51 @@ using System.Threading.Tasks;
 namespace GameOfLife
 {
 
-    public class Cell 
+    public class GameCell
     {
         #region Properties
         /// <summary>
         /// Generations Of rabbits that exist in the cell
         /// </summary>
         public List<Generation<Rabbit>> RabbitsGenerations { get; set; }
+
         /// <summary>
         /// Number of Rabbits in the Cell
         /// </summary>
         public int RabbitsCount { get; private set; }
+
         /// <summary>
         /// Generations of Foxes that exist in the cell
         /// </summary>
         public List<Generation<Fox>> FoxesGenerations { get; set; }
+
         /// <summary>
         /// Number of Foxes in the Cell
         /// </summary>
         public int FoxesCount { get; private set; }
+
         /// <summary>
         /// Number of Rabbits per Wolf in the Cell
         /// </summary>
         public int RabbitsDensity => (FoxesCount == 0) ? int.MaxValue : (RabbitsCount / FoxesCount);
+
         /// <summary>
         /// Vegetation Level in the Cell
         /// </summary>
         public float VegetationLevel { get; private set; }
+
         /// <summary>
         /// The Amount of Increase of Vegetation Per Day
         /// </summary>
         public static float VegetationGrowth { get; private set; }
+
         /// <summary>
         /// Initialize the Static Variables in Cell
         /// </summary>
         /// <param name="VegetationGrowth">The Amount of Increase of Vegetation Per Day</param>
         public static void init(float VegetationGrowth)
         {
-            Cell.VegetationGrowth = VegetationGrowth;
+            GameCell.VegetationGrowth = VegetationGrowth;
         }
 
         #endregion
@@ -56,7 +63,7 @@ namespace GameOfLife
         /// <returns>
         /// Number of Rabbits that were Born
         /// </returns>
-        private int rabbitMultipliaction(int Date)
+        private int rabbitMultipliaction()
         {
             int num = Rabbit.BirthRate[RabbitsCount][VegetationLevel] * (RabbitsCount / 2);
             Generation<Rabbit> newBorn = new Generation<Rabbit>(num);
@@ -64,14 +71,14 @@ namespace GameOfLife
             RabbitsGenerations.Sort();
             return num;
         }
-        
+
         /// <summary>
         /// Simulates the Multiplication Activity of Foxes
         /// </summary>
         /// <returns>
         /// Number of Foxes that were Born
         /// </returns>
-        private int foxMultiplication(int Date)
+        private int foxMultiplication()
         {
             int num = Fox.BirthRate[FoxesCount][RabbitsDensity] * (FoxesCount / 2);
             Generation<Fox> newBorn = new Generation<Fox>(num);
@@ -79,9 +86,9 @@ namespace GameOfLife
             FoxesGenerations.Sort();
             return num;
         }
-        
+
         /// <summary>
-        /// Merge The Current Lis tof Foxes Generation with another One
+        /// Merge The Current List of Foxes Generation with another One
         /// </summary>
         /// <param name="o"> The List of Foxes To merge With</param>
         public void Merge(List<Generation<Fox>> o)
@@ -103,7 +110,7 @@ namespace GameOfLife
             }
 
         }
-        
+
         /// <summary>
         /// Merge The Current Lis tof Rabbits Generation with another One
         /// </summary>
@@ -127,12 +134,12 @@ namespace GameOfLife
             }
 
         }
-        
+
         /// <summary>
         /// Copy a Cell but Merges the current Contents with the new Ones
         /// </summary>
-        /// <param name="c"></param>
-        public void CopyMerge(Cell c)
+        /// <param name="c">The Cell to Copy From</param>
+        public void CopyMerge(GameCell c)
         {
             VegetationLevel = c.VegetationLevel;
             RabbitsCount = c.RabbitsCount;
@@ -140,10 +147,11 @@ namespace GameOfLife
             Merge(c.FoxesGenerations);
             Merge(c.RabbitsGenerations);
         }
-        
+
         /// <summary>
         /// Simulates the Prey Activity of Foxes
         /// </summary>
+        /// <param name="Date"the Day on which the Simulation Occurs</param>
         private void preyTheFoxes(int Date)
         {
             float prop = Fox.MinFoodProp;
@@ -178,10 +186,11 @@ namespace GameOfLife
                 }
             }
         }
-        
+
         /// <summary>
         /// Simulates The Death Event of Rabbits
         /// </summary>
+        /// <param name="Date"the Day on which the Simulation Occurs</param>
         private void rabbitsDie(int Date)
         {
 
@@ -214,10 +223,11 @@ namespace GameOfLife
             }
             RabbitsGenerations = StillAlive;
         }
-        
+
         /// <summary>
         /// Simulates The Death Event of Foxes
         /// </summary>
+        /// <param name="Date"the Day on which the Simulation Occurs</param>
         private void foxesDie(int Date)
         {
             List<Generation<Fox>> StillAlive = new List<Generation<Fox>>();
@@ -250,7 +260,7 @@ namespace GameOfLife
             }
             FoxesGenerations = StillAlive;
         }
-        
+
         /// <summary>
         /// Changes The Vegetation Level based on thr Rules provided
         /// </summary>
@@ -263,19 +273,20 @@ namespace GameOfLife
                 f = 0.1f;
             VegetationLevel = f;
         }
-        
+
         /// <summary>
         /// Does a One Day Simulation of the Life in the Current Cell
         /// </summary>
+        /// <param name="Date"the Day on which the Simulation Occurs</param>
         public void oneDayCourse(int Date)
         {
             int newFoxes = 0, newRabbits = 0;
             if (Date != 0)
             {
                 if (Date % Fox.MultiplicationInterval == 0)
-                    newFoxes = foxMultiplication(Date);
+                    newFoxes = foxMultiplication();
                 if (Date % Rabbit.MultiplicationInterval == 0)
-                    newRabbits = rabbitMultipliaction(Date);
+                    newRabbits = rabbitMultipliaction();
             }
             RabbitsCount += newRabbits;
             FoxesCount += newFoxes;
@@ -285,14 +296,14 @@ namespace GameOfLife
             changeVegetationLevels();
         }
         #endregion
-        public Cell()
+        public GameCell()
         {
             FoxesGenerations = new List<Generation<Fox>>();
             RabbitsGenerations = new List<Generation<Rabbit>>();
             RabbitsCount = FoxesCount = 0;
             VegetationLevel = 0.1f;
         }
-        public Cell(int RabbitsCount, int FoxesCount, float Veg)
+        public GameCell(int RabbitsCount, int FoxesCount, float Veg)
         {
             FoxesGenerations = new List<Generation<Fox>>();
             FoxesGenerations.Add(new Generation<Fox>(FoxesCount));
@@ -302,7 +313,7 @@ namespace GameOfLife
             this.FoxesCount = FoxesCount;
             VegetationLevel = Veg;
         }
-        public Cell(Cell c)
+        public GameCell(GameCell c)
         {
             RabbitsGenerations = new List<Generation<Rabbit>>();
             foreach (Generation<Rabbit> g in c.RabbitsGenerations)

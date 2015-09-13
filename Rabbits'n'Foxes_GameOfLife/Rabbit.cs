@@ -13,12 +13,12 @@ namespace GameOfLife
         /// <summary>
         /// The Max Distance a Rabbit May Travel
         /// </summary>
-        public static int TravellingDistance { get; set; }
+        public static int TravellingDistance { get; private set; }
 
         /// <summary>
         /// Time (in Days) between each 2 Multiplication Seasons
         /// </summary>
-        public static int MultiplicationInterval { get; set; }
+        public static int MultiplicationInterval { get; private set; }
 
         /// <summary>
         /// Expected Age of Rabbits based on Vegetation Level

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="GameOfLife.Animal">
+    <Position X="2.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAkAAAgEAAAAAAAQAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Animal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GameOfLife.GameCell">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gABAAACACAAAgAkAAAAAAQAAMAAEAQIAAIAACAAAKAA=</HashCode>
+      <FileName>GameCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOfLife.Distribution&lt;TKey, TValue&gt;">
+    <Position X="7.75" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAACAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distibution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOfLife.Distribution&lt;TKey1, TKey2, TValue&gt;">
+    <Position X="4" Y="7.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Distibution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOfLife.Fox">
+    <Position X="0.5" Y="3.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAgQEACQAAAAABBAAAQgAAgUAAIAAAAAAACBABA=</HashCode>
+      <FileName>Fox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOfLife.Generation&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAiEAQAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Generation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="GameOfLife.GameGrid">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="GameOfLife.GameGrid.ThreadParam">
+        <TypeIdentifier>
+          <NewMemberFileName>GameGrid.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAgAAAgACABIIAAQAAAAAAgAABAAAQAQAAAAA=</HashCode>
+      <FileName>GameGrid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameOfLife.Rabbit">
+    <Position X="4" Y="3.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAABAAAQAAAAUAAIAAAAAAAAAABA=</HashCode>
+      <FileName>Rabbit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

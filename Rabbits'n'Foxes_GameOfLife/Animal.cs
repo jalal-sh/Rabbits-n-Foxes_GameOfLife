@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace GameOfLife
 {
-    public class Animal:ICloneable
+    public class Animal : ICloneable
     {
-        
+
         /// <summary>
         /// a Unique ID for each animal so We can decide whether or not 2 animals are the same Animals
         /// </summary>
         public long ID { get; private set; }
         private static long IDCounter { get; set; }
         /// <summary>
-        /// Age of The Rabbit (Represented as Days)
+        /// Age of The Animal (Represented as Days)
         /// </summary>
         public int Age { get; protected set; }
-        
+
         /// <summary>
-        /// On the End of Day Rabbits Ages One More Day
+        /// On the End of Day Animals Ages One More Day
         /// </summary>
         public void AgeOneDay()
         {
@@ -40,9 +40,10 @@ namespace GameOfLife
             if (obj is Animal)
             {
                 Animal c = (Animal)obj;
-                return c.ID == ID;
+                return c.ID == ID && obj.GetType() == GetType();
             }
-            throw new ArgumentException("is not an Animal ", nameof(obj));
+            else
+                return false;
         }
 
         public virtual object Clone()

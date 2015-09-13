@@ -12,12 +12,12 @@ namespace GameOfLife
         /// <summary>
         /// Time (in Days) between each 2 Multiplication Seasons
         /// </summary>
-        public static int MultiplicationInterval { get; set; }
+        public static int MultiplicationInterval { get; private set; }
 
         /// <summary>
         /// The Max Distance a Rabbit May Travel
         /// </summary>
-        public static int TravellingDistance { get; set; }
+        public static int TravellingDistance { get; private set; }
 
         /// <summary>
         /// Expected Age of Foxes
@@ -112,7 +112,7 @@ namespace GameOfLife
         /// <summary>
         /// Number of Rabbits The Fox have Eaten each day in the Past Week
         /// </summary>
-        public int[] EatenEachDay { get; set; }
+        public int[] EatenEachDay { get; private set; }
 
         /// <summary>
         /// Sum of all the Rabbits that the fox have eaten the past week

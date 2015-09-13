@@ -11,11 +11,14 @@ namespace GameOfLife.View
     /// Represents the Presentation Logic of each Cell
     /// Contains 3 Properties each representing each type of element in the Cell                 
     /// </summary>
-    internal class CellViewModel : INotifyPropertyChanged
+    public class GameCellVM : INotifyPropertyChanged
     {
-        
-
-
+        public GameCellVM()
+        {
+            Red = new SolidColorBrush(Colors.Red);
+            Blue = new SolidColorBrush(Colors.Blue);
+            Green = new SolidColorBrush(Color.FromArgb(255, 0, 255, 0));
+        }
         private SolidColorBrush _red;
         /// <summary>
         /// Representing the Foxes in The Cell
@@ -51,9 +54,9 @@ namespace GameOfLife.View
             if (PropertyChanged == null)
                 return;
             PropertyChanged(this, new PropertyChangedEventArgs(name));
-            
+
         }
 
-        
+
     }
 }

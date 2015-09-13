@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 namespace GameOfLife.View
 {
-    static class configuration
+    public class GameConfiguration
     {
         
-        static List<List<CellViewModel>> cells;
-        static Grid Source;
+        static List<List<GameCellVM>> cells;
+       /* static GameGrid Source;
         public static void RefreshCells()
         {
             for (int i = 0; i < Source.Size.Item1; i++)
@@ -37,5 +37,6 @@ namespace GameOfLife.View
 
                 }
         }
+        */
     }
 }

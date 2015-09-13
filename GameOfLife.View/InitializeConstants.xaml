@@ -1,0 +1,49 @@
+﻿<Window x:Class="GameOfLife.View.InitializeConstants"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameOfLife.View"
+        mc:Ignorable="d"
+        Title="InitializeConstants" Height="295.474" Width="464.079">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="228*"/>
+            <RowDefinition Height="41*"/>
+        </Grid.RowDefinitions>
+        <TabControl x:Name="tabControl" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <TabItem Header="Rabbits">
+                <Grid Background="#FFE5E5E5">
+                    <TabControl x:Name="tabControl1" TabStripPlacement="Bottom">
+                        <TabItem Header="Constants">
+                            <Grid Background="#FFE5E5E5"/>
+                        </TabItem>
+                        <TabItem Header="Birth Rates">
+                            <Grid Background="#FFE5E5E5"/>
+                        </TabItem>
+                        <TabItem Header="Death Rate">
+                            <Grid Background="#FFE5E5E5"/>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Foxes">
+                <Grid Background="#FFE5E5E5">
+                    <TabControl x:Name="tabControl2" TabStripPlacement="Bottom">
+                        <TabItem Header="Constants">
+                            <Grid Background="#FFE5E5E5"/>
+                        </TabItem>
+                        <TabItem Header="Birth Rates">
+                            <Grid Background="#FFE5E5E5"/>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Cells">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="button" Content="Done" HorizontalAlignment="Right" Margin="0,10,10,5" Grid.Row="1" Width="80.172" IsDefault="True"/>
+
+    </Grid>
+</Window>
