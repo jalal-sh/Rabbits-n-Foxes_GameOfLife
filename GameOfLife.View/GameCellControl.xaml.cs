@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GameOfLife.View
 {
@@ -20,9 +8,25 @@ namespace GameOfLife.View
     /// </summary>
     public partial class GameCellControl : UserControl
     {
+        public GameCellVM context
+        {
+            get { return GameCellLayout.GetValue(DataContextProperty) as GameCellVM; }
+
+
+            set { GameCellLayout.SetValue(DataContextProperty, value); }
+        }
         public GameCellControl()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            CellInput ci = new CellInput();
+            ci.ShowDialog();
+            context.initFoxes = ci.Fxes;
+            context.initRabbits = ci.Rabs;
+            context.initVegetation = ci.Veg;
         }
     }
 }

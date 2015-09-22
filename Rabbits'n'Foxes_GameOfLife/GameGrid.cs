@@ -13,6 +13,7 @@ namespace GameOfLife
 
     {
         #region Properties
+
         /// <summary>
         /// Total Count of Foxes on the grid
         /// </summary>
@@ -53,38 +54,33 @@ namespace GameOfLife
         {
             List<Tuple<int, int>> result = new List<Tuple<int, int>>();
             result.Add(Tuple.Create(c.Item1, c.Item2));
-            if (c.Item1 + 1 != Size.Item1)
+            for (int i = 0; i < trDist; i++)
             {
-                result.Add(Tuple.Create(c.Item1 + 1, c.Item2));
-                if (c.Item2 + 1 != Size.Item2)
-                    result.Add(Tuple.Create(c.Item1 + 1, c.Item2 + 1));
-                if (c.Item2 != 0)
-                    result.Add(Tuple.Create(c.Item1 + 1, c.Item2 - 1));
+                if (c.Item1 + i < Size.Item1)
+                {
+                    result.Add(Tuple.Create(c.Item1 + i, c.Item2));
+                    if (c.Item2 + i < Size.Item2)
+                        result.Add(Tuple.Create(c.Item1 + i, c.Item2 + i));
+                    if (c.Item2 - i >= 0)
+                        result.Add(Tuple.Create(c.Item1 + i, c.Item2 - i));
+
+                }
+                if (c.Item2 + i < Size.Item2)
+                    result.Add(Tuple.Create(c.Item1, c.Item2 + i));
+                if (c.Item1 - i >= 0)
+                {
+                    result.Add(Tuple.Create(c.Item1 - i, c.Item2));
+                    if (c.Item2 + i < Size.Item2)
+                        result.Add(Tuple.Create(c.Item1 - i, c.Item2 + i));
+                    if (c.Item2 - i >= 0)
+                        result.Add(Tuple.Create(c.Item1 - i, c.Item2 - i));
+                }
+                if (c.Item2 - i >= 0)
+                    result.Add(Tuple.Create(c.Item1, c.Item2 - i));
+
 
             }
-            if (c.Item2 + 1 != Size.Item2)
-                result.Add(Tuple.Create(c.Item1, c.Item2 + 1));
-            if (c.Item1 != 0)
-            {
-                result.Add(Tuple.Create(c.Item1 - 1, c.Item2));
-                if (c.Item2 + 1 != Size.Item2)
-                    result.Add(Tuple.Create(c.Item1 - 1, c.Item2 + 1));
-                if (c.Item2 != 0)
-                    result.Add(Tuple.Create(c.Item1 - 1, c.Item2 - 1));
-            }
-            if (c.Item2 != 0)
-                result.Add(Tuple.Create(c.Item1, c.Item2 - 1));
-            if (trDist == 1)
-                return result.Distinct().ToList();
-            else
-            {
-                List<Tuple<int, int>> newRes = new List<Tuple<int, int>>();
-                foreach (Tuple<int, int> d in result)
-                {
-                    newRes.AddRange(possibleDest(d, trDist - 1));
-                }
-                return newRes.Distinct().ToList();
-            }
+            return result;
         }
 
 
@@ -123,7 +119,7 @@ namespace GameOfLife
                 throw new ArgumentOutOfRangeException(nameof(threads), 0, "Number of threads Can't be Zero");
 
             Barrier barrier = new Barrier((int)threads);
-            ThreadPool.SetMaxThreads((int)threads, 100);
+            ThreadPool.SetMaxThreads((int)threads, (int)threads);
             ThreadParam.bar = barrier;
 
             for (int i = 0; i < time; i++)
@@ -162,15 +158,16 @@ namespace GameOfLife
                 {
                     i++;
                     j = 0;
-                    int oldRabbitCount = Cells[i][j].RabbitsCount;
-                    int oldFoxesCount = Cells[i][j].FoxesCount;
-                    Cells[i][j].oneDayCourse(Date);
-                    lock (this as object)
-                    {
-                        TotalFoxesCount += Cells[i][j].FoxesCount - oldFoxesCount;
-                        TotalRabbitsCount += Cells[i][j].RabbitsCount - oldRabbitCount;
-                    }
                 }
+                int oldRabbitCount = Cells[i][j].RabbitsCount;
+                int oldFoxesCount = Cells[i][j].FoxesCount;
+                Cells[i][j].oneDayCourse(Date);
+                lock (this as object)
+                {
+                    TotalFoxesCount += Cells[i][j].FoxesCount - oldFoxesCount;
+                    TotalRabbitsCount += Cells[i][j].RabbitsCount - oldRabbitCount;
+                }
+
 
             }
             ThreadParam.bar.SignalAndWait();
@@ -246,8 +243,9 @@ namespace GameOfLife
                     {
                         int travellersTothisDest = (int)(numToTravel * rates[dest]);
                         List<Generation<Rabbit>> destination = new List<Generation<Rabbit>>();
-
-                        int gen = random.Next(Cells[i][j].RabbitsGenerations.Count - 1);
+                        if (Cells[i][j].FoxesGenerations.Count == 0)
+                            continue;
+                        int gen = random.Next(Cells[i][j].RabbitsGenerations.Count);
                         int fromThisGen = random.Next(Math.Min(Cells[i][j].RabbitsGenerations[gen].Count, numToTravel - alreadyTravelled));
                         Generation<Rabbit> resGen = new Generation<Rabbit>(0);
                         for (int rab = 0; rab < fromThisGen; rab++)
@@ -276,9 +274,12 @@ namespace GameOfLife
                         continue;
                     for (int dest = 0; dest < possibleDests.Count; dest++)
                     {
+
                         int travellersTothisDest = (int)(numToTravel * rates[dest]);
                         List<Generation<Fox>> destination = new List<Generation<Fox>>();
-                        int gen = random.Next(Cells[i][j].FoxesGenerations.Count - 1);
+                        if (Cells[i][j].FoxesGenerations.Count == 0)
+                            continue;
+                        int gen = random.Next(Cells[i][j].FoxesGenerations.Count);
 
                         int fromThisGen = random.Next(Math.Min(Cells[i][j].FoxesGenerations[gen].Count, numToTravel - alreadyTravelled));
                         Generation<Fox> resGen = new Generation<Fox>(0);
@@ -294,13 +295,32 @@ namespace GameOfLife
                             destination.Add(resGen);
                         result[possibleDests[dest].Item1][possibleDests[dest].Item2].Merge(destination);
                     }
-                    result[i][j].CopyMerge(Cells[i][j]);
                 }
             }
+            for (int i = 0; i < Size.Item1; i++)
+            {
+                for (int j = 0; j < Size.Item2; j++)
+                {
+                    result[i][j].CopyMerge(Cells[i][j]);
+
+                }
+            }
+            Cells = result;
 
         }
 
         #endregion
+        public GameGrid(List<List<GameCell>> contents)
+        {
+            Size = new Tuple<int, int>(contents.Count, contents[0].Count);
+            foreach (List<GameCell> l in contents)
+                foreach (GameCell gCell in l)
+                {
+                    TotalFoxesCount += gCell.FoxesCount;
+                    TotalRabbitsCount += gCell.RabbitsCount;
+                }
+            Cells = contents;
+        }
         public GameGrid(Tuple<int, int> size)
 
         {

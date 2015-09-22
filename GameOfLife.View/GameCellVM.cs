@@ -56,7 +56,21 @@ namespace GameOfLife.View
             PropertyChanged(this, new PropertyChangedEventArgs(name));
 
         }
+        private string _tooltip;
 
-
+        public string Tooltip
+        {
+            get { return _tooltip; }
+            set { _tooltip = value; NotifyChange(nameof(Tooltip)); }
+        }
+        public int initRabbits { get;set; }
+        public int initFoxes { get; set; }
+        public float initVegetation { get; set; }
+        void input(int r,int f,float v)
+        {
+            initFoxes = f;
+            initRabbits = r;
+            initVegetation = v;
+        }
     }
 }

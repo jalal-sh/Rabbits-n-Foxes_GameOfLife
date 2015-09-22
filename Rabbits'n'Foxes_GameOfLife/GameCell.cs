@@ -140,12 +140,12 @@ namespace GameOfLife
         /// </summary>
         /// <param name="c">The Cell to Copy From</param>
         public void CopyMerge(GameCell c)
-        {
+        { 
+            Merge(c.FoxesGenerations);
+            Merge(c.RabbitsGenerations);
             VegetationLevel = c.VegetationLevel;
             RabbitsCount = c.RabbitsCount;
             FoxesCount = c.FoxesCount;
-            Merge(c.FoxesGenerations);
-            Merge(c.RabbitsGenerations);
         }
 
         /// <summary>
@@ -161,6 +161,7 @@ namespace GameOfLife
                 prop = Fox.MaxFoodProp;
                 AllowedWeekly = Fox.MaxFoodAllowedWeekly;
             }
+
             foreach (Generation<Fox> gen in FoxesGenerations)
             {
                 foreach (Fox f in gen.Animals)
@@ -175,6 +176,8 @@ namespace GameOfLife
                         {
                             e++;
                             int rab = r.Next(RabbitsGenerations.Count);
+                            if (RabbitsGenerations.Count == 0)
+                                return;
                             RabbitsGenerations[rab].Animals.RemoveAt(r.Next(RabbitsGenerations[rab].Count));
                             if (RabbitsGenerations[rab].Count == 0)
                                 RabbitsGenerations.RemoveAt(rab);

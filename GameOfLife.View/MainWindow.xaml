@@ -6,27 +6,19 @@
         xmlns:local="clr-namespace:GameOfLife.View"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="GameOfLife.View.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1611.276" Width="2244.533" WindowState="Maximized" Background="White">
+        Title="MainWindow" Height="2629.899" Width="4392.901" WindowState="Maximized" Background="White" Loaded="Window_Loaded">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="243*"/>
-            <RowDefinition Height="73*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <UniformGrid Margin="10,10,10,26.854" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
-            <local:GameCellControl Margin="0,0,10,0"/>
-            <local:GameCellControl Margin="0,0,10,0"/>
-            <local:GameCellControl Margin="0,0,10,0"/>
-            <local:GameCellControl Margin="0,0,10,0"/>
-            <local:GameCellControl Margin="0,0,10,0"/>
-            <local:GameCellControl Margin="0,0,10,0"/>
-            <local:GameCellControl Margin="0,0,10,0"/>
-            <local:GameCellControl Margin="0,0,10,0"/>
-            <local:GameCellControl Margin="0,0,10,0"/>
-        </UniformGrid>
-        <Expander x:Name="expander" Header="Options" Margin="0,3.997,20,10" Grid.Row="1" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+        <UniformGrid x:Name="CellsLayoutContainer" Margin="10"/>
+        <Expander x:Name="expander" Header="Options" Margin="0,3.997,20,10" Grid.Row="1" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" IsExpanded="True">
             <Grid Background="#00E5E5E5" Height="118" Margin="10,0,8,0">
-                <Slider x:Name="StepSlider" Margin="828.729,0,10,0" VerticalAlignment="Bottom" TickPlacement="BottomRight"/>
-                <Slider x:Name="CurDateSlider" Margin="45.083,0,368.5,0" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" TickPlacement="TopLeft" Height="25.96"/>
+                <Slider x:Name="CurDateSlider" Margin="45.083,0,368.5,0" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" TickPlacement="TopLeft" Height="25.96" Maximum="101"/>
                 <Label x:Name="Day0Label" Content="Day 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <ComboBox x:Name="DateCombo" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" Margin="0,10,10,0">
                     <TextBlock Text="Day"/>
@@ -35,9 +27,15 @@
                     <TextBlock Text="Year"/>
 
                 </ComboBox>
-                <TextBox x:Name="textBox" HorizontalAlignment="Right" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="0,8.96,135,0"/>
-                <Label x:Name="label" Content="End of Simulation" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,255,0"/>
-                <Label x:Name="label1" Content="Step:" HorizontalAlignment="Left" Margin="787.745,74.066,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="EndSim_textBox" HorizontalAlignment="Right" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="0,8.96,135,0"/>
+                <Label x:Name="label" Content="End of Simulation" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,255,0"/>
+                <Button x:Name="button" Content="Begin Simulation" HorizontalAlignment="Right" Margin="0,43.591,10,0" Width="344.901" Height="29.409" VerticalAlignment="Top" Click="button_Click"/>
+                <Rectangle Fill="Red" HorizontalAlignment="Left" Margin="0,30.96,0,0" Stroke="Black" Width="30.083" RenderTransformOrigin="-0.091,0.039" Height="26.409" VerticalAlignment="Top"/>
+                <Label x:Name="label1" Content="Foxes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="35.083,30.96,0,0" Height="26.409"/>
+                <Rectangle Fill="Blue" HorizontalAlignment="Left" Margin="154,30.96,0,0" Stroke="Black" Width="30.083" RenderTransformOrigin="-0.091,0.039" Height="26.409" VerticalAlignment="Top"/>
+                <Label x:Name="label1_Copy" Content="Rabbits" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="189.083,30.96,0,0" Height="26.409"/>
+                <Rectangle Fill="Lime" HorizontalAlignment="Left" Margin="295,30.96,0,0" Stroke="Black" Width="30.083" RenderTransformOrigin="-0.091,0.039" Height="26.409" VerticalAlignment="Top"/>
+                <Label x:Name="label1_Copy1" Content="Vegetation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="330.083,30.96,0,0" Height="26.409"/>
             </Grid>
         </Expander>
     </Grid>

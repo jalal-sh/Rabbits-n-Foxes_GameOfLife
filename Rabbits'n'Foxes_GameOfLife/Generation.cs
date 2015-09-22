@@ -26,7 +26,7 @@ namespace GameOfLife
         {
             Animals = new List<T>();
             foreach (T t in c.Animals)
-                Animals.Add((T)t.Clone());
+                Animals.Add(t);
         }
         public Generation(int num)
         {

@@ -92,46 +92,69 @@ namespace ThreadingVisualizer
         {
             GameGrid g;
             initAll();
-            g = new GameGrid(Tuple.Create(8, 8));
+            g = new GameGrid(Tuple.Create(16, 16));
             foreach (List<GameCell> cells in g.Cells)
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 16; i++)
                 {
-                    cells.Add(new GameCell(2, 100, 1f));
+                    cells.Add(new GameCell(20, 500, 1f));
                 }
             g.GridSim(10 * 365, (uint)threads);
-            gu.GuWindowView(0, 10000, 11, 0, 0, 0, panel1.Width, panel1.Height);
         }
+        int[] times;
         Gu gu;
         public Form1()
         {
             gu = new Gu();
+            times = new int[10];
             bg.DoWork += Bg_DoWork;
+            bg.RunWorkerCompleted += Bg_RunWorkerCompleted;
             InitializeComponent();
             g = panel1.CreateGraphics();
         }
+
+        private void Bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            panel1.Refresh();
+        }
+
         Graphics g;
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
-        double lasty = 0;
-        int i = 0;
+        int i = 10;
+        int d = 11;
         private void DrawThreadPerformance()
         {
-          DateTime x = DateTime.Now;
-            Gridit(i);
-            double t = (DateTime.Now - x).TotalMilliseconds;
-            gu.GuText("*", i - 0.15, (int)t - 20, g);
-            gu.GuText((int)t + "ms", i, (int)t + 60, g);
-            if (i != 1)
-                gu.GuLine(i - 1.0, (int)lasty, i * 1f, (int)t, g);
-            lasty = t;
+            while (i > 0)
+            {
+                DateTime x = DateTime.Now;
+                Gridit(i);
+                double t = (DateTime.Now - x).TotalMilliseconds;
+                times[i - 1] = (int)t;
+                d = i;
+                i--;
+            }
 
         }
         BackgroundWorker bg = new BackgroundWorker();
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
+            if (bg.IsBusy)
+                return;
+            Graphics g = panel1.CreateGraphics();
+            gu.GuWindowView(0, 0, 11, 18000, 0, 0, 1360, 786);
+            for (int i = 9; i >= d - 1; i--)
+            {
+                gu.GuText("*", i + 1 - 0.05, times[i], g);
+                gu.GuText(times[i] + "ms", i + 1, times[i] + 60, g);
+                if (i != 9)
+                    gu.GuLine(i + 1, times[i], i * 1f + 2, times[i + 1], g);
+
+            }
         }
+
+
 
         private void Bg_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -140,12 +163,10 @@ namespace ThreadingVisualizer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            i++;
-            while (bg.IsBusy)
-            {
-
-            }
             bg.RunWorkerAsync();
+
         }
+
+
     }
 }

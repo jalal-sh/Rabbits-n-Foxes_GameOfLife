@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GameOfLife.View"
              mc:Ignorable="d" 
-             d:DesignHeight="144.828" d:DesignWidth="141.379">
+             d:DesignHeight="144.828" d:DesignWidth="141.379" MouseDoubleClick="UserControl_MouseDoubleClick">
     <UserControl.Resources>
         <local:GameCellVM x:Key="GameCellDataSource" d:isDataSource="True"/>
     </UserControl.Resources>
-    <Grid x:Name="GameCellLayout" DataContext="{DynamicResource GameCellDataSource}">
+    <Grid x:Name="GameCellLayout" DataContext="{DynamicResource GameCellDataSource}" ToolTip="{Binding Tooltip}">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
